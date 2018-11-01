@@ -1,4 +1,5 @@
-certifi==2018.8.24
-pipenv==2018.7.1
-virtualenv==16.0.0
-virtualenv-clone==0.3.0
+Django<2.2
+Pillow<5.4
+pytz<2018.8
+boto3<2.0
+django-storages<1.8
