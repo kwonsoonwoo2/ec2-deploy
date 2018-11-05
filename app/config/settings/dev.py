@@ -1,4 +1,5 @@
 from .base import *
+secrets = json.load(open(os.path.join(SECRETS_DIR, 'dev.json')))
 
 DEBUG = True
 
@@ -6,9 +7,4 @@ DEBUG = True
 WSGI_APPLICATION = 'config.wsgi.application'
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+DATABASES = secrets['DATABASES']
