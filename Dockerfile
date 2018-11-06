@@ -14,8 +14,8 @@ RUN         pip3 install uwsgi
 
 # requirements.txt파일만 복사 후, 패키지 설치
 # requirements.txt파일의 내용이 바뀌지 않으면 pip3 install ...부분이 재실행되지 않음
-COPY        requirements.txt /tmp/
-RUN         pip3 install -r /tmp/requirements.txt
+COPY        requirements-production.txt /tmp/requirements.txt
+RUN         pip3 install -r /tmp/requirements-production.txt
 
 # 전체 소스코드 복사
 COPY        ./  /srv/project/
