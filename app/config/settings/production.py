@@ -1,12 +1,11 @@
 from .base import *
+
 secrets = json.load(open(os.path.join(SECRETS_DIR, 'production.json')))
 
 DEBUG = False
 ALLOWED_HOSTS = secrets['ALLOWED_HOSTS']
 
-
 WSGI_APPLICATION = 'config.wsgi.production.application'
-
 
 DATABASES = secrets['DATABASES']
 
@@ -17,7 +16,6 @@ AWS_STORAGE_BUCKET_NAME = secrets['AWS_STORAGE_BUCKET_NAME']
 # S3버전 및 지역 지정
 AWS_S3_SIGNATURE_VERSION = 's3v4'
 AWS_S3_REGION_NAME = 'ap-northeast-2'
-
 
 # 로그폴더 생성
 LOG_DIR = os.path.join(ROOT_DIR, '.log')
@@ -37,15 +35,15 @@ LOGGING = {
             'level': 'ERROR',
             'filename': os.path.join(LOG_DIR, 'error.log'),
             'formatter': 'default',
-            'maxBytes': 10485760,
+            'maxBytes': 1048576,
             'backupCount': 10,
         },
         'file_info': {
             'class': 'logging.handlers.RotatingFileHandler',
-            'level': 'ERROR',
+            'level': 'INFO',
             'filename': os.path.join(LOG_DIR, 'info.log'),
             'formatter': 'default',
-            'maxBytes': 10485760,
+            'maxBytes': 1048576,
             'backupCount': 10,
         },
         'console': {
@@ -55,7 +53,11 @@ LOGGING = {
     },
     'loggers': {
         'django': {
-            'handlers': ['file_error', 'console', 'file_info'],
+            'handlers': [
+                'file_error',
+                'file_info',
+                'console',
+            ],
             'level': 'INFO',
             'propagate': True,
         },
@@ -64,8 +66,9 @@ LOGGING = {
 
 
 def is_ec2_linux():
-    """Detect if we are running on an EC2 Linux Instance
-       See http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/identify_ec2_instances.html
+    """
+    Detect if we are running on an EC2 Linux Instance
+    See http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/identify_ec2_instances.html
     """
     if os.path.isfile("/sys/hypervisor/uuid"):
         with open("/sys/hypervisor/uuid") as f:
